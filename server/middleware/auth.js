@@ -15,7 +15,6 @@ const auth = async (req, res, next) => {
 
     if (token && isCustomAuth) {      
       decodedData = jwt.verify(token, secret);
-
       req.userId = decodedData.id;
     } else {
       decodedData = jwt.decode(token);
@@ -25,8 +24,8 @@ const auth = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.log(err);
-    res.status(500).json({message:"Server error"})
+    console.log( err.message);
+    res.status(500).json({message: err.message.match('jwt expired') ? "Login in again or refresh" : "Server error"})
   }
 };
 
