@@ -1,14 +1,14 @@
-import { AUTH , REQUEST_AUTH ,GOOGLE_AUTH } from '../constant/actionTypes';
+import { AUTH, REQUEST_AUTH, GOOGLE_AUTH } from "../constant/actionTypes";
 import { Notify } from "notiflix";
-import * as api from '../api/index.js';
+import * as api from "../api/index.js";
 
 export const signin = (formData, router) => async (dispatch) => {
   try {
+    dispatch({ type: REQUEST_AUTH, payload: true });
     const { data } = await api.signIn(formData);
-    dispatch({type:REQUEST_AUTH,payload:true});
-    dispatch({ type: AUTH, payload:data });
+    dispatch({ type: AUTH, payload: data });
 
-    router.push('/');
+    router.push("/");
   } catch (error) {
     const { response } = error;
     const { request, ...errorObject } = response; // take everything but 'request'
@@ -27,16 +27,15 @@ export const signin = (formData, router) => async (dispatch) => {
 
 export const signup = (formData, router) => async (dispatch) => {
   try {
+    dispatch({ type: "REQUEST_AUTH", payload: true });
     const { data } = await api.signUp(formData);
-    dispatch({type:"REQUEST_AUTH",payload:true});
-    dispatch({ type: AUTH, payload : data });
+    dispatch({ type: AUTH, payload: data });
 
-    router.push('/');
+    router.push("/");
   } catch (error) {
     const { response } = error;
-   
+
     const { request, ...errorObject } = response; // take everything but 'request'
-    
 
     if (error.response) {
       // client received an error response (5xx, 4xx)
@@ -51,15 +50,13 @@ export const signup = (formData, router) => async (dispatch) => {
   }
 };
 
-export const googleLogin= (formData,router) => async(dispatch)=> {
- try {
-    const { data } = await api.googleLogin(formData)
-    dispatch({type:"REQUEST_AUTH",payload:true});
+export const googleLogin = (formData, router) => async (dispatch) => {
+  try {
+    const { data } = await api.googleLogin(formData);
 
-    dispatch({ type: AUTH, payload : data } );
+    dispatch({ type: AUTH, payload: data });
 
-    router.push('/');
-
+    router.push("/");
   } catch (error) {
     console.log(error);
     if (error?.response) {
@@ -72,8 +69,5 @@ export const googleLogin= (formData,router) => async(dispatch)=> {
       // anything else
       Notify.Failure(error.message);
     }
-    
   }
-
-
-}
+};

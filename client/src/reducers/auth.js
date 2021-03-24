@@ -1,9 +1,10 @@
-import { AUTH,LOGOUT , REQUEST_AUTH } from '../constant/actionTypes'
+import { AUTH,LOGOUT , REQUEST_AUTH , GOOGLE_AUTH } from '../constant/actionTypes'
 
 
 const initialUser = {
     authData:null,
-    loading:false
+    loading:false,
+    googleLoading:false
 };
 
 export default ( user=initialUser , action) => {
@@ -11,11 +12,11 @@ export default ( user=initialUser , action) => {
     case AUTH:
         console.log(action.payload);
         localStorage.setItem('profile', JSON.stringify({ ...action.payload }));
-        return { ...user, authData: action.payload, loading: false, errors: null };
+        return { ...user, authData: action.payload, loading: false };
     case LOGOUT :
         localStorage.clear();
 
-      return { ...user, authData: null, loading: false, errors: null };
+      return { ...user, authData: null, loading: false };
     case REQUEST_AUTH:
       return { ...user,loading:true}
     default :

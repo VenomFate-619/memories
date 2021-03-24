@@ -18,7 +18,7 @@ function Posts({ setCurrentId }) {
   return posts.length===0 ? (
    <Paper>
       <Typography variant="h6" align="center">
-        No post made  be first to post
+        No post made  be the  first to post
       </Typography>
     </Paper>
   ) : (
