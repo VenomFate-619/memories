@@ -10,6 +10,7 @@ export const signin = (formData, router) => async (dispatch) => {
 
     router.push("/");
   } catch (error) {
+    dispatch({ type: REQUEST_AUTH, payload: false });
     const { response } = error;
     const { request, ...errorObject } = response; // take everything but 'request'
     if (error.response) {
@@ -34,7 +35,7 @@ export const signup = (formData, router) => async (dispatch) => {
     router.push("/");
   } catch (error) {
     const { response } = error;
-
+    dispatch({ type: REQUEST_AUTH, payload: false });
     const { request, ...errorObject } = response; // take everything but 'request'
 
     if (error.response) {
@@ -59,6 +60,7 @@ export const googleLogin = (formData, router) => async (dispatch) => {
     router.push("/");
   } catch (error) {
     console.log(error);
+    dispatch({ type: REQUEST_AUTH, payload: false });
     if (error?.response) {
       // client received an error response (5xx, 4xx)
       Notify.Failure(error.response.data.message);

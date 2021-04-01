@@ -9,7 +9,7 @@ export const getPosts = () => async (dispatch) => {
     var { data } = await api.fetchPosts();
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
-      console.log(error.message);
+      console.log(error);
       Notify.Failure(error.message);
   }
 };

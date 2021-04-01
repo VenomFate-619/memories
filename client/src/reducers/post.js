@@ -2,7 +2,7 @@ import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE,REQUEST,DONE } from '../constan
 
 const initialPosts = {
   loading:false,
-  posts:[]
+  posts:null
 }
 
 

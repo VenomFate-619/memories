@@ -42,7 +42,8 @@ function Auth({history}) {
   const handleSubmit = (e) => {
       e.preventDefault()
       if (isSignup) {
-        dispatch(signup(formData, history));
+        formData.password === formData.confirmPassword ?
+        dispatch(signup(formData, history)) : Notify.Failure("Conform Password do not match")
       } else {
         dispatch(signin(formData, history));
       }

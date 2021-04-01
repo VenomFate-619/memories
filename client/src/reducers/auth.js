@@ -10,7 +10,6 @@ const initialUser = {
 export default ( user=initialUser , action) => {
   switch (action.type) {
     case AUTH:
-        console.log(action.payload);
         localStorage.setItem('profile', JSON.stringify({ ...action.payload }));
         return { ...user, authData: action.payload, loading: false };
     case LOGOUT :
@@ -18,7 +17,7 @@ export default ( user=initialUser , action) => {
 
       return { ...user, authData: null, loading: false };
     case REQUEST_AUTH:
-      return { ...user,loading:true}
+      return { ...user,loading:action.payload}
     default :
     return user;
 
