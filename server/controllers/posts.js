@@ -31,8 +31,8 @@ export const getPost = async (req, res) => {
 
 export const createPost = async (req, res) => {
   const newPostMessage = new PostMessage({
-   ...req.body,
-    creator: req.userId
+    ...req.body,
+    creator: req.userId,
   });
 
   try {
@@ -46,16 +46,15 @@ export const createPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const { id } = req.params;
-  const { title, message, creator, selectedFile, tags } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  const updatedPost = { creator, title, message, tags, selectedFile};
+  const newPost = await PostMessage.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
 
-  await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true });
-
-  res.json(updatedPost);
+  res.json(newPost);
 };
 
 export const deletePost = async (req, res) => {
@@ -87,7 +86,7 @@ export const likePost = async (req, res) => {
     }
 
     // const updatedPost = await PostMessage.findByIdAndUpdate(id, { $inc:{like:1} }, { new: true });
-    await post.save()
+    await post.save();
     res.json(post);
   } catch (err) {
     console.log(err);
