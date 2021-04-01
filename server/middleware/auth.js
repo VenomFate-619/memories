@@ -17,8 +17,8 @@ const auth = async (req, res, next) => {
       decodedData = jwt.verify(token, secret);
       req.userId = decodedData.id;
     } else {
+      // google token
       decodedData = jwt.decode(token);
-
       req.userId = decodedData.sub;
     }           
 

@@ -1,0 +1,11 @@
+export const CREATE = 'CREATE';
+export const UPDATE = 'UPDATE';
+export const DELETE = 'DELETE';
+export const FETCH_ALL = 'FETCH_ALL';
+export const LIKE = 'LIKE';
+export const AUTH = 'AUTH';
+export const LOGOUT = 'LOGOUT';
+export const DONE = 'DONE';
+export const REQUEST = 'REQUEST'
+export const REQUEST_AUTH = "REQUEST_AUTH"
+export const GOOGLE_AUTH = "GOOGLE_AUTH"
