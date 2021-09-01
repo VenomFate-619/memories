@@ -18,7 +18,7 @@ function Home() {
     }, [currentId,dispatch])
 
     return (
-        <Grow in>
+      <Grow in>
         <Container>
           <Grid
             container
@@ -27,16 +27,16 @@ function Home() {
             spacing={3}
             className={classes.mainContainer}
           >
-            <Grid item xs={12} sm={7}>
-              <Posts  setCurrentId={setCurrentId}  />
+            <Grid item xs={12} sm={7} className={classes.setMaxWidth} item >
+              <Posts setCurrentId={setCurrentId} />
             </Grid>
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={5} className={classes.form} >
               <Form  currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
           </Grid>
         </Container>
       </Grow>
-    )
+    );
 }
 
 export default Home

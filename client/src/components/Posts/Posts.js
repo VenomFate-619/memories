@@ -5,20 +5,18 @@ import Post from "./Post/Post";
 import useStyles from "./styles";
 
 function Posts({ setCurrentId }) {
-  const posts = useSelector((state) => state.posts.posts);
+  let posts = useSelector((state) => state.posts.posts);
   const classes = useStyles();
-
+  // posts = undefined
   if(!posts)
   {
-    return (
-      <CircularProgress />
-    )
+    return <CircularProgress className={classes.circularProgress} />;
   }
 
   return posts.length===0 ? (
    <Paper>
       <Typography variant="h6" align="center">
-        No post made  be the  first to post
+        No post made , be the  first to post
       </Typography>
     </Paper>
   ) : (
@@ -30,7 +28,7 @@ function Posts({ setCurrentId }) {
     >
       {posts.map((post) => {
         return (
-          <Grid key={post._id} item xs={12} sm={6} md={6} >
+          <Grid key={post._id} item xs={12} sm={4} md={6} >
             <Post post={post}   setCurrentId={setCurrentId } />
           </Grid>
         );

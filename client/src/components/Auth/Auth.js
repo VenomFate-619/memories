@@ -62,6 +62,7 @@ function Auth({history}) {
         // dispatch({ type:"AUTH" , payload:{ result , token } })
         // await axios.post('http://localhost:5000/user/googlelogin', {result , token})
         // history.push('/')
+        console.log(token)
         dispatch(googleLogin({result,token},history))
     } catch (error) {
       console.log(error);
@@ -70,6 +71,7 @@ function Auth({history}) {
 
 
   const googleError = (error)=>{
+    console.log(error);
     Notify.Failure('Internet disconnected');
   }
 
