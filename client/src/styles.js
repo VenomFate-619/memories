@@ -1,50 +1,13 @@
 import {makeStyles} from '@material-ui/core/styles';
-// import { createTheme } from "@material-ui/core/styles";
 
-// const theme = createTheme({
-//   breakpoints: {
-//     get down() {
-//       return (key) => `@media (max-width:${this.values[key] - 0.5}px)`;
-//     },
-//     get up() {
-//       return (key) => `@media (min-width:${this.values[key] + 0.5}px)`;
-//     },
-//     get between() {
-//       return (keyA, keyB) =>
-//         `@media (min-width:${this.values[keyA]}px) and (max-width:${
-//           this.values[keyB] - 0.5
-//         }px)`;
-//     },
-//   },
-// });
-
-// export {theme} ;
 
 export default makeStyles((theme) => ({
-  appBar: {
-    borderRadius: 15,
-    margin: "30px 0",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    [theme.breakpoints.down("sm")]: {
-      background: "red",
-      flexWrap: "wrap",
-      justifyContent: "center",
-    },
-  },
-  heading: {
-    color: "rgba(0,183,255, 1)",
-  },
-  image: {
-    marginLeft: "15px",
-  },
   circularProgress: {
     display: "grid",
   },
-  
-  [theme.breakpoints.down("md")]: {
+  // it should be md but there is a bug in this version
+  // https://github.com/mui-org/material-ui/issues/13448
+  [theme.breakpoints.down("sm")]: {
     mainContainer: {
       flexDirection: "column-reverse",
     },
@@ -57,6 +20,6 @@ export default makeStyles((theme) => ({
     appBar:
     {
        background: "red",
-    }
+    },
   },
 }));

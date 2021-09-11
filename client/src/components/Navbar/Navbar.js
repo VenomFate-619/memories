@@ -56,6 +56,7 @@ function Navbar() {
               <Typography className={classes.userName} variant="h6">
                 {user?.result.name}
               </Typography>
+              <div className={classes.break}></div>
               <Button
                 variant="contained"
                 className={classes.logout}

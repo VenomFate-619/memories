@@ -4,40 +4,62 @@ import { deepPurple } from '@material-ui/core/colors';
 export default makeStyles((theme) => ({
   appBar: {
     borderRadius: 15,
-    margin: '30px 0',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '10px 50px',
+    margin: "30px 0",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 50px",
+    [theme.breakpoints.down("sm")]: {
+      flexWrap: "wrap",
+      justifyContent: "center",
+    },
   },
   heading: {
-    color: 'rgba(0,183,255, 1)',
-    textDecoration: 'none',
+    color: "rgba(0,183,255, 1)",
+    textDecoration: "none",
   },
   image: {
-    marginLeft: '15px',
+    marginLeft: "15px",
   },
   toolbar: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    width: '400px',
+    display: "flex",
+    justifyContent: "flex-end",
+    width: "100%",
+    maxWidth: "400px",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center",
+    },
   },
   profile: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '400px',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    flexWrap:"wrap"
   },
   userName: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   brandContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  [theme.breakpoints.down("xs")]: {
+    break:{
+      flexBasis: "100%",
+      height: "0"
+    },
+    profile:{
+      justifyContent:"space-around"
+    },
+    logout:{
+      marginTop:"12px"
+    }
   },
 }));
