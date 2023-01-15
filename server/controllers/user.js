@@ -18,6 +18,10 @@ export const signin = async (req, res) => {
     if (!oldUser)
       return res.status(404).json({ message: "User doesn't exist" });
 
+    if (oldUser?.method === 'google') {
+      return res.status(400).json({message:"Kindly signin with google"});
+    }
+
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect)
@@ -29,6 +33,7 @@ export const signin = async (req, res) => {
 
     res.status(200).json({ result: oldUser, token });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -57,8 +62,6 @@ export const signup = async (req, res) => {
     res.status(201).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
-
-    console.log(error);
   }
 };
 
@@ -78,7 +81,7 @@ export const googleLogin = async (req, res) => {
       var user = await UserModal.findOne({ email });
 
       if (!user) {
-        user = await UserModal.create({ email, name });
+        user = await UserModal.create({ email, name , method:"google" });
       }
       const jwttoken = jwt.sign(
         { email: user.email, id: user._id },

@@ -1,4 +1,4 @@
-import { AUTH, REQUEST_AUTH, GOOGLE_AUTH } from "../constant/actionTypes";
+import { AUTH, REQUEST_AUTH } from "../constant/actionTypes";
 import { Notify } from "notiflix";
 import * as api from "../api/index.js";
 

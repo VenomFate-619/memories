@@ -13,37 +13,32 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { deletePost, likePost } from "../../../actions/post";
+import { deletePost, likePost, changeLike } from "../../../actions/post";
 import useStyles from "./styles";
 
 function Post({ post, setCurrentId }) {
-  
-  useEffect(() => {
-    console.log("fetching");
-  });
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
 
+  let isLikeByMe = post?.likeUser.includes(user?.result?._id ?? "");
+  let isCreatedByMe = user?.result?._id === post.creator;
+
   const Likes = () => {
-    if (post.likeCount.length > 0) {
-      return post.likeCount.find(
-        (like) => like === (user?.result?.googleId || user?.result?._id)
-      ) ? (
+    const likeNumber = post.likeNumber;
+    if (likeNumber > 0) {
+      return isLikeByMe ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
-          {post.likeCount.length > 2
-            ? `You and ${post.likeCount.length - 1} others`
-            : `${post.likeCount.length} like${
-                post.likeCount.length > 1 ? "s" : ""
-              }`}
+          {likeNumber > 2
+            ? `You and ${likeNumber - 1} others`
+            : `${likeNumber} like${likeNumber > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{post.likeCount.length}{" "}
-          {post.likeCount.length === 1 ? "Like" : "Likes"}
+          &nbsp;{likeNumber} {likeNumber === 1 ? "Like" : "Likes"}
         </>
       );
     }
@@ -70,10 +65,9 @@ function Post({ post, setCurrentId }) {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-      {(user?.result?.googleId === post.creator ||
-          user?.result?._id === post.creator) && (
-            <Button
-            style={{ color: "white" }}
+        {isCreatedByMe && (
+          <Button
+            style={{ color: "white", minWidth: 0 }}
             size="small"
             onClick={() => {
               setCurrentId(post._id);
@@ -107,21 +101,19 @@ function Post({ post, setCurrentId }) {
           size="small"
           color="primary"
           disabled={!user?.result}
-          onClick={() => dispatch(likePost(post._id))}
+          onClick={() => dispatch(changeLike(post._id, isLikeByMe))}
         >
-          {/* <ThumbUpAltIcon fontSize="small" /> {post.likeCount.length > 1 ? `${post.likeCount.length} Likes` :`${post.likeCount.length} Like` } */}
           <Likes />
         </Button>
-        {(user?.result?.googleId === post.creator ||
-          user?.result?._id === post.creator) && (
+        {isCreatedByMe && (
           <Button
             size="small"
             color="primary"
             disabled={!user?.result}
             onClick={() => dispatch(deletePost(post._id))}
+            style={{ minWidth: 0 }}
           >
             <DeleteIcon fontSize="small" />
-            Delete
           </Button>
         )}
       </CardActions>

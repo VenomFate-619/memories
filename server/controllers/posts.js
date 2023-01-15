@@ -48,7 +48,7 @@ export const updatePost = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
+    return res.status(404).json({message:`No post with id: ${id}`});
 
   const newPost = await PostMessage.findByIdAndUpdate(id, req.body, {
     new: true,
@@ -61,33 +61,48 @@ export const deletePost = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
+    return res.status(404).json({message:`No post with id: ${id}`});
 
   await PostMessage.findByIdAndRemove(id);
 
   res.json({ message: "Post deleted successfully." });
 };
 
-// likes functionalitychanges  beaware
+
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(404).send(`No post with id: ${id}`);
-    const post = await PostMessage.findById(id);
+      return res.status(404).json({message:`No post with id: ${id}`});
 
-    const index = post.likeCount.findIndex((id) => id === String(req.userId));
+    const updatedPost = await PostMessage.findByIdAndUpdate(
+      id,
+      { $inc: { likeNumber: 1 }, $push: { likeUser: req.userId } },
+      { new: true }
+    );
+    
+    res.json({ message: "post liked", postData: updatedPost });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err });
+  }
+};
 
-    if (index === -1) {
-      post.likeCount.push(req.userId);
-    } else {
-      post.likeCount = post.likeCount.filter((id) => id !== String(req.userId));
-    }
+export const unlikePost = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-    // const updatedPost = await PostMessage.findByIdAndUpdate(id, { $inc:{like:1} }, { new: true });
-    await post.save();
-    res.json(post);
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).json({message:`No post with id: ${id}`});
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(
+      id,
+      { $inc: { likeNumber: -1 }, $pull: { likeUser: req.userId } },
+      { new: true }
+    );
+
+    res.json({ message: "post unliked", postData: updatedPost });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err });

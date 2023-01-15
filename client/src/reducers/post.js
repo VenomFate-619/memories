@@ -6,7 +6,7 @@ const initialPosts = {
 }
 
 
-export default (posts = initialPosts, { type, payload }) => {
+export default  function PostReducer(posts = initialPosts, { type, payload }) {
   switch (type) {
     case FETCH_ALL:
       return {...posts,posts:payload};

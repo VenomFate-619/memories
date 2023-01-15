@@ -9629,6 +9629,11 @@ redux-thunk@^2.3.0:
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
   integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
 
+redux-undo-action@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/redux-undo-action/-/redux-undo-action-0.0.2.tgz#fec478a3d734d41629ab5a8662dc7d09b8b4846e"
+  integrity sha512-hE4hagn8IPkSWgFWXyWH8ivSji0TCZTJIGNcbp1WgYq2pa86ZSmb2xAzy4SFdAsJR8aMmLfrMOnCUU9haittmA==
+
 redux@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
