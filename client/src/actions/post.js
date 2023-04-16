@@ -5,18 +5,25 @@ import {
   DELETE,
   LIKE,
   REQUEST,
+  UPDATE_ID,
 } from "../constant/actionTypes";
 import { Notify } from "notiflix";
 import * as api from "../api";
 import { undo } from "redux-undo-action";
 
-const remove = (id) => {  return {type: DELETE, payload: id }} 
+const remove = (id) => {
+  return { type: DELETE, payload: id };
+};
+
+const addPost = (data) => {
+  return { type: CREATE, payload: data };
+};
 
 const changeLikeCount = (id, getState, isLikeByMe) => {
   let posts = getState().posts?.posts ?? [];
   const user = JSON.parse(localStorage.getItem("profile"));
   let userId = user?.result?._id ?? "";
-  let  post = posts.find(p => p._id === id);
+  let post = posts.find((p) => p._id === id);
 
   if (post) {
     post = {
@@ -28,9 +35,8 @@ const changeLikeCount = (id, getState, isLikeByMe) => {
     };
   }
 
-  return { type: LIKE, payload: post }
+  return { type: LIKE, payload: post };
 };
-
 
 // action creators
 export const getPosts = () => async (dispatch) => {
@@ -44,12 +50,15 @@ export const getPosts = () => async (dispatch) => {
 };
 
 export const createPost = (post) => async (dispatch) => {
+  const optimisticAction = addPost(post);
+  dispatch(optimisticAction);
+  dispatch({ type: REQUEST, payload: true });
   try {
-    dispatch({ type: REQUEST, payload: true });
     var { data } = await api.createPost(post);
-    dispatch({ type: CREATE, payload: data });
+    dispatch({ type: UPDATE_ID, payload: { ...data, newId: post.newId } });
     Notify.Success("Post created..");
   } catch (error) {
+    dispatch(undo(optimisticAction));
     console.log(error.message);
     Notify.Failure(error.message);
   }
@@ -57,7 +66,7 @@ export const createPost = (post) => async (dispatch) => {
 
 export const updatePost = (id, post) => async (dispatch) => {
   try {
-    dispatch({type:REQUEST,payload:true})
+    dispatch({ type: REQUEST, payload: true });
     const { data } = await api.updatePost(id, post);
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
@@ -67,8 +76,8 @@ export const updatePost = (id, post) => async (dispatch) => {
 };
 
 export const deletePost = (id) => async (dispatch) => {
-   const optimisticAction = remove(id);
-   dispatch(optimisticAction);
+  const optimisticAction = remove(id);
+  dispatch(optimisticAction);
   try {
     await api.deletePost(id);
   } catch (error) {
@@ -83,11 +92,9 @@ export const changeLike = (id, isLikeByMe) => async (dispatch, getState) => {
   dispatch(optimisticAction);
   try {
     if (!isLikeByMe) {
-      const { data } = await api.likePost(id);
-      dispatch({ type: LIKE, payload: data.postData });
+      await api.likePost(id);
     } else {
-      const { data } = await api.unlikePost(id);
-      dispatch({ type: LIKE, payload: data.postData });
+      await api.unlikePost(id);
     }
   } catch (error) {
     dispatch(undo(optimisticAction));
@@ -106,4 +113,3 @@ export const changeLike = (id, isLikeByMe) => async (dispatch, getState) => {
     }
   }
 };
-

@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE,REQUEST,DONE } from '../constant/actionTypes'
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE,REQUEST,DONE,UPDATE_ID } from '../constant/actionTypes'
 
 const initialPosts = {
   loading:false,
@@ -21,6 +21,14 @@ export default  function PostReducer(posts = initialPosts, { type, payload }) {
       return { ...posts , loading: payload }
     case DONE:
       return  {...posts , loading: payload }
+    case UPDATE_ID:
+      return {
+        ...posts,
+        posts: posts.posts.map((post) =>
+          post.newId === payload.newId ? payload : post
+        ),
+        loading: false,
+      };
     default:
       return posts;
   }

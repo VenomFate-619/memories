@@ -49,4 +49,11 @@ export default makeStyles({
     display: "flex",
     justifyContent: "space-between",
   },
+  fillContainerOverlay: {
+    position: "absolute",
+    inset: "0px",
+    backgroundColor: "rgb(92 92 92 / 38%)",
+    height: "100%",
+    width: "100%",
+  },
 });

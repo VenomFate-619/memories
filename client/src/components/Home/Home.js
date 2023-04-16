@@ -14,7 +14,6 @@ function Home() {
   
     useEffect(() => {
       dispatch(getPosts())
-      console.log("running home");
     }, [currentId,dispatch])
 
     return (
@@ -27,7 +26,7 @@ function Home() {
             spacing={3}
             className={classes.mainContainer}
           >
-            <Grid item xs={12} sm={7} className={classes.setMaxWidth} item >
+            <Grid item xs={12} sm={7} className={classes.setMaxWidth}  >
               <Posts setCurrentId={setCurrentId} />
             </Grid>
             <Grid item xs={12} sm={5} className={classes.form} >

@@ -18,7 +18,6 @@ function Navbar() {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-    console.log("heey navbar")
     setUser(JSON.parse(localStorage.getItem('profile')))
   },[setUser,location])
 

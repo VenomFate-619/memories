@@ -166,7 +166,7 @@ function Auth({history}) {
             onFailure={googleError}
             cookiePolicy="single_host_origin"
           />
-          <Grid container justify="center">
+          <Grid container justifyContent="center">
             <Grid item>
               <Button onClick={switchMode}>
                 {isSignup

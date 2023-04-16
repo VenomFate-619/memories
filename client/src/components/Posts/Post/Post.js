@@ -1,31 +1,30 @@
-import React, { useEffect } from "react";
 import {
-  Card,
+  Button, Card,
   CardActions,
   CardContent,
-  CardMedia,
-  Button,
-  Typography,
+  CardMedia, Typography
 } from "@material-ui/core/";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { deletePost, likePost, changeLike } from "../../../actions/post";
+import React from "react";
+import { useDispatch  , useSelector} from "react-redux";
+import { changeLike, deletePost } from "../../../actions/post";
 import useStyles from "./styles";
 
 function Post({ post, setCurrentId }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+  let loading = useSelector((state) => state.posts.loading);
 
-  let isLikeByMe = post?.likeUser.includes(user?.result?._id ?? "");
-  let isCreatedByMe = user?.result?._id === post.creator;
+  let isLikeByMe = post?.likeUser?.includes(user?.result?._id ?? "") ?? false;
+  let isCreatedByMe = user?.result?._id === post?.creator;
 
   const Likes = () => {
-    const likeNumber = post.likeNumber;
+    const likeNumber = post?.likeNumber ?? 0;
     if (likeNumber > 0) {
       return isLikeByMe ? (
         <>
@@ -53,6 +52,7 @@ function Post({ post, setCurrentId }) {
 
   return (
     <Card className={classes.card}>
+      {loading && <div className={classes.fillContainerOverlay} />}
       <CardMedia
         className={classes.media}
         image={post.selectedFile}
@@ -74,7 +74,7 @@ function Post({ post, setCurrentId }) {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <MoreHorizIcon fontSize="default" />
+            <MoreHorizIcon fontSize="medium" />
           </Button>
         )}
       </div>

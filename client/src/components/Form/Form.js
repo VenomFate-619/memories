@@ -1,10 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { TextField, Button, Typography, Paper } from "@material-ui/core";
-import FileBase from "react-file-base64";
-import { Notify } from "notiflix";
+import { Button, Paper, TextField, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useStyles from "./styles";
 import { createPost, updatePost } from "../../actions/post";
+import useStyles from "./styles";
+import { v4 as uuidv4 } from "uuid";
+
+function getBase64(file, setter) {
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function () {
+    setter((prev) => {
+      return { ...prev, selectedFile: reader.result };
+    });
+  };
+  reader.onerror = function (error) {
+    console.log("Error: ", error);
+  };
+}
 
 function Form({ currentId, setCurrentId }) {
   const classes = useStyles();
@@ -19,12 +31,10 @@ function Form({ currentId, setCurrentId }) {
   const post = useSelector((state) =>
     currentId ? state.posts.posts.find((post) => post._id === currentId) : null
   );
-  var loading = useSelector((state) => state.posts.loading);
 
-  var user = JSON.parse(localStorage.getItem('profile'))
-  
+  var user = JSON.parse(localStorage.getItem("profile"));
+
   useEffect(() => {
-    console.log("running form");
     if (post) setPostData(post);
   }, [post]);
 
@@ -32,11 +42,19 @@ function Form({ currentId, setCurrentId }) {
     try {
       e.preventDefault();
       if (postData.selectedFile.length > 0) {
+        const newId = uuidv4();
         if (currentId) {
           dispatch(updatePost(currentId, postData));
           setCurrentId(null);
         } else {
-          dispatch(createPost({...postData , userName:user?.result?.name}));
+          dispatch(
+            createPost({
+              ...postData,
+              userName: user?.result?.name ?? "",
+              creator: user?.result?._id ?? "",
+              newId,
+            })
+          );
           window.scrollTo({ bottom: 0, behavior: "smooth" });
         }
         clear();
@@ -112,15 +130,18 @@ function Form({ currentId, setCurrentId }) {
           required
         />
         <div className={classes.fileInput}>
-          <FileBase
+          <input
             type="file"
             multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
             required
+            accept="image/*"
+            onChange={(e) =>
+              setPostData({
+                ...postData,
+                selectedFile: getBase64(e.target.files[0], setPostData),
+              })
+            }
           />
-          {status && <p>Plz 🙏 include a image</p>}
         </div>
         <Button
           className={classes.buttonSubmit}
@@ -129,9 +150,8 @@ function Form({ currentId, setCurrentId }) {
           size="large"
           type="submit"
           fullWidth
-          disabled={loading}
         >
-          Submit
+          Publish
         </Button>
         <Button
           variant="contained"

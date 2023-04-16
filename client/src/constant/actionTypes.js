@@ -9,3 +9,4 @@ export const DONE = 'DONE';
 export const REQUEST = 'REQUEST'
 export const REQUEST_AUTH = "REQUEST_AUTH"
 export const GOOGLE_AUTH = "GOOGLE_AUTH"
+export const UPDATE_ID = "UPDATE_ID"
