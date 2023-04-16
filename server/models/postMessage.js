@@ -7,10 +7,12 @@ const postSchema = mongoose.Schema({
   userName: String,
   tags: [String],
   selectedFile: String,
-  likeUser: [{type: mongoose.Schema.Types.ObjectId,ref: "User" , default:[]}],
+  likeUser: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
+  ],
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: Date.now,
   },
   likeNumber: { type: Number, default: 0 },
 });
